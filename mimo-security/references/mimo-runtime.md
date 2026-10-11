@@ -43,7 +43,7 @@ The scan needs MiMoCode's `workflow` tool. It is gated by an environment variabl
 export MIMOCODE_EXPERIMENTAL_WORKFLOW_TOOL=true
 ```
 
-or enable every experimental tool with `MIMOCODE_EXPERIMENTAL=true`. Restart `mimo` after setting it. Without this flag the job stops with the "scan pipeline is unavailable" line. `/workflows` and `/deep-research` are gated the same way.
+or enable every experimental tool with `MIMOCODE_EXPERIMENTAL=true`. Restart `mimo` after setting it. `scripts/enable-workflow-tool.sh` appends the export to the user's shell rc (idempotent) and reminds them to restart — the scan jobs offer it when the tool is missing. Without this flag the job stops with the "scan pipeline is unavailable" line. `/workflows` and `/deep-research` are gated the same way.
 
 Agent `tools:` frontmatter cannot turn the flag on: `workflow` is not a per-agent tool id. `mimo` refuses to start if any `~/.config/mimocode/agent/*.md` has invalid frontmatter — `color` must match `/^#[0-9a-fA-F]{6}$/` and be YAML-quoted (`color: "#8B5CF6"`), because a bare `#…` starts a comment.
 
