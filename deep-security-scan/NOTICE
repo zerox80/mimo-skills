@@ -1,0 +1,20 @@
+Derived from OpenAI codex-security.
+Original copyright: Copyright 2025 OpenAI.
+License: Apache-2.0; see LICENSE.
+Source: https://github.com/openai/codex-security/tree/main/plugins/codex-security/skills
+Pinned source commit: eb73cc0fa64f25f432bace6f8ff3f475038bfc71
+
+Modified for Claude on 2026-10-07.
+Runtime-specific Codex integration was replaced with self-contained local workflows.
+Original evidence, validation, severity, triage and reporting guidance was retained or adapted.
+This adaptation is not an official OpenAI or Anthropic integration.
+
+Adapted again for Xiaomi MiMo Code on 2026-10-07.
+MiMo-specific skill discovery, agent modes and local runtime guidance replace Claude runtime assumptions.
+This is an independent adaptation, not an official OpenAI or Xiaomi integration.
+
+Further extended for Xiaomi MiMo Code.
+Added original scripts (bind_source.py, validate_artifacts.py), JSON schemas,
+pass playbooks, finding-family sink catalogs, actor spawn briefs, report
+templates and a hard artifact consistency gate. Those additions are part of
+this adaptation and remain under Apache-2.0.
