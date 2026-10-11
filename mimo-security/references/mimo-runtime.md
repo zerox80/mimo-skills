@@ -35,6 +35,18 @@ Agent bodies live in `agents/` (source of truth) and are installed to `~/.config
 - **Unattended operation:** one real `Question` is the scan's fixed start confirmation (unless the request already accepted the cost). Everything else decides and proceeds.
 - **One simple Bash command per call** (no `;` / `&&` / `||` / `|` chains) when the Security Lead runs pre-approved git forms.
 
+## Enabling the workflow tool
+
+The scan needs MiMoCode's `workflow` tool. It is gated by an environment variable (not a config key):
+
+```bash
+export MIMOCODE_EXPERIMENTAL_WORKFLOW_TOOL=true
+```
+
+or enable every experimental tool with `MIMOCODE_EXPERIMENTAL=true`. Restart `mimo` after setting it. Without this flag the job stops with the "scan pipeline is unavailable" line. `/workflows` and `/deep-research` are gated the same way.
+
+Agent `tools:` frontmatter cannot turn the flag on: `workflow` is not a per-agent tool id. `mimo` refuses to start if any `~/.config/mimocode/agent/*.md` has invalid frontmatter — `color` must match `/^#[0-9a-fA-F]{6}$/` and be YAML-quoted (`color: "#8B5CF6"`), because a bare `#…` starts a comment.
+
 ## Registering the scan workflow
 
 Dynamic workflows are per project. Before launching a scan:
