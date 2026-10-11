@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "name": "mimo-security",
+  "description": "Scan the codebase, scan changes, or suggest patches (findings turned into targeted patch files, each verified by a panel of agents).",
+  "author": {
+    "name": "MiMo Security port"
+  }
+}
