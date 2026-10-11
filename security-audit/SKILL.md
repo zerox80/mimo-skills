@@ -1,17 +1,17 @@
 ---
 name: security-audit
-description: Code-only security audit of a repository with severity levels P1, P2, and P3 only. Scans all code files, skips every folder starting with a dot, and re-verifies each finding up to 3 times before reporting. Use when the user asks for a "security audit", "Sicherheitsaudit", "code security review", "scan for vulnerabilities", "find security issues in this codebase", or wants P1/P2/P3 security findings. Do NOT use for live pentesting, exploit development, infrastructure scans of running hosts, or non-code content review.
+description: Code-only security audit of a repository with severity levels P0, P1, P2, and P3. Scans all code files, skips every folder starting with a dot, and re-verifies each finding up to 3 times before reporting. Use when the user asks for a "security audit", "Sicherheitsaudit", "code security review", "scan for vulnerabilities", "find security issues in this codebase", or wants P0/P1/P2/P3 security findings. Do NOT use for live pentesting, exploit development, infrastructure scans of running hosts, or non-code content review.
 ---
 
 # Security Audit
 
-Read-only static security review of **code files** in a repository. Findings are limited to **P1 / P2 / P3** and must survive up to **3 verification passes** before they appear in the report.
+Read-only static security review of **code files** in a repository. Findings use severity **P0 / P1 / P2 / P3** and must survive up to **3 verification passes** before they appear in the report.
 
 ## Hard rules (never break)
 
 1. **Code files only** — discover them with `scripts/list_code_files.py`. Do not audit Markdown, images, binaries, or lockfiles as primary targets.
 2. **Skip every directory whose name starts with `.`** — e.g. `.git`, `.venv`, `.idea`, `.github`. Never walk into them.
-3. **Severity is only P1, P2, or P3** — no P0, no CRITICAL, no INFO. See `references/severity-and-verification.md`.
+3. **Severity is P0, P1, P2, or P3** — no P4, no CRITICAL/INFO labels as separate levels. See `references/severity-and-verification.md`.
 4. **Verify every candidate finding at most 3 times** (passes 1–3). After pass 3, accept as `confirmed` / `probable` or drop. Never loop beyond 3.
 5. **Read-only** — do not modify project files during the audit.
 6. **Do not write exploits or attack payloads.** Report the issue and the fix; do not produce working attack code.
@@ -76,11 +76,11 @@ Output a Markdown report in this order:
 ## Summary
 - Files in scope: N
 - Candidates: N
-- Confirmed findings: N (P1: a, P2: b, P3: c)
+- Confirmed findings: N (P0: a, P1: b, P2: c, P3: d)
 - Dropped after verification: N
 
 ## Findings
-### [P1] SA-001 Title
+### [P0] SA-001 Title
 - file: path:line
 - category: ...
 - evidence: "quoted code"
@@ -88,7 +88,7 @@ Output a Markdown report in this order:
 - recommendation: ...
 - confidence: confirmed | probable
 
-(... more findings, sorted P1 → P2 → P3, then by file)
+(... more findings, sorted P0 → P1 → P2 → P3, then by file)
 
 ## Dropped candidates
 | id | reason | pass |
@@ -103,10 +103,10 @@ Empty findings section is fine — say so explicitly in the Summary.
 ## Examples
 
 **User:** "Mach ein Security Audit von diesem Repo"
-→ Step 1–5 on cwd. Report with only P1–P3, only code files, verified findings.
+→ Step 1–5 on cwd. Report with P0–P3, only code files, verified findings.
 
 **User:** "Scan src/ for security issues, P1-P2 only if possible"
-→ Scope = `src/`. Still run all 3 verification passes. If the user narrows severity further, honor it on top of the P1–P3 rule.
+→ Scope = `src/`. Still run all 3 verification passes. If the user narrows severity further, honor it on top of the P0–P3 rule.
 
 **User:** "Audit the auth module for injection"
 → Scope = that path, categories filtered to injection + auth. Same verification.
@@ -117,9 +117,9 @@ Empty findings section is fine — say so explicitly in the Summary.
 |---------|-------|-----|
 | `list_code_files.py` finds nothing | empty repo, only docs, or everything under `.` dirs | Confirm root; if only docs exist, report out of scope |
 | Finding cites `.venv/...` or `.git/...` | scope filter violated | Drop the finding; it is out of scope |
-| Severity reported as CRITICAL/P0/P4 | wrong scale | Map to P1 (or lower); only P1/P2/P3 exist |
+| Severity reported as CRITICAL/P4/INFO | wrong scale | Map onto P0–P3 (see reference table) |
 | Same issue many times | copied pattern | Merge into one finding with a file list |
-| Verification still "maybe" after pass 3 | unresolved ambiguity | Keep as `probable` only if P1/P2; drop otherwise |
+| Verification still "maybe" after pass 3 | unresolved ambiguity | Keep as `probable` only if P0/P1/P2; drop otherwise |
 | Huge codebase, context limits | > ~400 files | Batch by top-level directory; apply the same rules per batch; merge the final report |
 
 ## Reference

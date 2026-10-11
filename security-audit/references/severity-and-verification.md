@@ -1,22 +1,22 @@
 # Severity & Verification Reference
 
-## Severity scale (P1 / P2 / P3 only)
+## Severity scale (P0 / P1 / P2 / P3)
 
-Only these three levels exist in this skill. Do **not** invent P0/P4/CRITICAL/INFO.
+Exactly these four levels. Do **not** invent P4/CRITICAL/INFO as extra levels.
 
 | Level | Name | Meaning | Typical impact | Default action |
 |-------|------|---------|----------------|----------------|
-| **P1** | High | Directly exploitable or one step from full compromise on a reachable path | Auth bypass, RCE, SQLi, SSRF to internal, secret leak of live credentials, unsafe deserialization | Fix before merge / hotfix |
+| **P0** | Critical | Unauthenticated or one-shot full compromise; actively exploitable on a reachable path | Unauth RCE, unauth SQLi dumping data, live credential leak, auth bypass to admin, unsafe deserialization of untrusted input | Stop and hotfix immediately |
+| **P1** | High | Directly exploitable or one step from full compromise on a reachable path | Auth bypass (limited), RCE with weak preconditions, SQLi (auth user), SSRF to internal, secret leak of non-prod credentials, weak crypto on auth tokens | Fix before merge / hotfix |
 | **P2** | Medium | Exploitable under specific conditions, limited blast radius, or defense-in-depth failure | XSS (reflected/stored with constraints), CSRF on state-changing ops, path traversal with partial control, weak crypto in non-critical path, hardcoded non-secret config that enables abuse | Fix in current sprint |
 | **P3** | Low | Best-practice gap, hardening miss, or issue that needs many other failures first | Missing security headers, verbose errors, outdated dep without known exploit, missing rate limit on non-sensitive endpoint, weak input validation that is not directly exploitable | Backlog / hardening |
 
 ### Mapping rules
 
 1. If severity is unclear between two levels, **choose the higher one**, then justify.
-2. If a finding would be P0/critical in another scheme (unauthenticated RCE, full DB dump), **report it as P1** — this skill has no P0.
-3. Informational notes, style, and pure performance issues are **out of scope**. Drop them.
-4. The same root cause in multiple files = **one finding** with a file list, not N findings.
-5. Do not pad the report. Zero findings is a valid outcome.
+2. Informational notes, style, and pure performance issues are **out of scope**. Drop them.
+3. The same root cause in multiple files = **one finding** with a file list, not N findings.
+4. Do not pad the report. Zero findings is a valid outcome.
 
 ## Finding record (required fields)
 
@@ -24,7 +24,7 @@ Every accepted finding must carry:
 
 ```
 id:        SA-001 (sequential)
-severity:  P1 | P2 | P3
+severity:  P0 | P1 | P2 | P3
 title:     short imperative summary
 file:      path:line (and extra paths if same root cause)
 category:  injection | auth | secrets | crypto | ssrf | xss | path-traversal |
@@ -55,9 +55,9 @@ Goal: false positives are worse than missed cosmetic issues. Re-check every cand
 - Write the strongest reason this is a **false positive**.
 - If that counter-argument holds, drop the finding.
 - If it does not hold, mark `confidence: confirmed`.
-- If still ambiguous after pass 3, mark `confidence: probable` and keep only if severity is P1 or P2. Drop ambiguous P3s.
+- If still ambiguous after pass 3, mark `confidence: probable` and keep only if severity is P0, P1, or P2. Drop ambiguous P3s.
 
-**Hard cap:** never run more than 3 verification passes. If unresolved after pass 3, the pass-3 rule decides (keep P1/P2 as `probable`, drop the rest). Do not loop forever.
+**Hard cap:** never run more than 3 verification passes. If unresolved after pass 3, the pass-3 rule decides (keep P0/P1/P2 as `probable`, drop the rest). Do not loop forever.
 
 ### Per-finding log (keep in the report appendix)
 
