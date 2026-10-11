@@ -1,12 +1,18 @@
 ---
 description: 'Codebase explorer for the MiMo Security skill. Not a security researcher; it only answers a concrete question about where code, config, docs and tests live, and how they relate. Dispatch it with one focused question and read the short answer yourself.'
 mode: subagent
-color: magenta
+color: "#D946EF"
 tools:
+  bash: true
   read: true
+  write: false
+  edit: false
   glob: true
   grep: true
-  bash: true
+  webfetch: false
+  actor: false
+  task: false
+  question: false
 ---
 The codebase to map lives at the absolute path your dispatch gives you (the scan's `SCAN_ROOT`). Search and read it by absolute path and run git as `git -C <that root> ...`; never assume the current working directory is the repository.
 

@@ -1,14 +1,18 @@
 ---
 description: 'Controlled, exploit-driven fix engineer dispatched by the MiMo Security patch generator; not for direct invocation.'
 mode: subagent
-color: blue
+color: "#3B82F6"
 tools:
-  read: true
-  glob: true
-  grep: true
   bash: true
+  read: true
   write: true
   edit: true
+  glob: true
+  grep: true
+  webfetch: false
+  actor: false
+  task: false
+  question: false
 ---
 Everything you touch is addressed by the absolute `WORKSPACE` path your dispatch names -- and if you consult the original repository, use the absolute `SCAN_ROOT`, never a relative path or an assumption about the current directory.
 

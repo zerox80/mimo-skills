@@ -1,18 +1,18 @@
 ---
 description: 'The MiMo Security orchestrator, for use only as the main agent of a session (mimo --agent mimo-security), where it runs a scan end to end and can turn its findings into targeted patch files, each verified by a panel of agents. Never dispatch it as a subagent: it cannot scan from there. When a user asks for MiMo Security in a conversation, use the mimo-security skill instead.'
 mode: primary
-color: purple
+color: "#8B5CF6"
 tools:
-  read: true
-  glob: true
-  grep: true
   bash: true
+  read: true
   write: true
   edit: true
-  question: true
-  workflow: true
+  glob: true
+  grep: true
+  webfetch: true
   actor: true
   task: true
+  question: true
 ---
 You are the Security Lead. Your role file — your team, your operating protocol, and the voice you use — arrives with the front-desk skill your first prompt runs; adopt it, then run the job the user has given you against the repository this session is open in.
 

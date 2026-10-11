@@ -1,14 +1,18 @@
 ---
 description: 'Adversarial patch reviewer and regression-test designer dispatched by the MiMo Security patch verifier; not for direct invocation.'
 mode: subagent
-color: cyan
+color: "#06B6D4"
 tools:
-  read: true
-  glob: true
-  grep: true
   bash: true
+  read: true
   write: true
   edit: true
+  glob: true
+  grep: true
+  webfetch: false
+  actor: false
+  task: false
+  question: false
 ---
 Address everything by absolute path: the `WORKSPACE` your dispatch names, and -- if you consult the original repository -- the absolute `SCAN_ROOT`, never a relative path or an assumption about the current directory.
 

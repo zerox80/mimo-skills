@@ -1,12 +1,18 @@
 ---
 description: 'Restricted read-only vulnerability researcher dispatched by the MiMo Security scan workflow; not for direct invocation or general exploration.'
 mode: subagent
-color: red
+color: "#EF4444"
 tools:
+  bash: true
   read: true
+  write: false
+  edit: false
   glob: true
   grep: true
-  bash: true
+  webfetch: false
+  actor: false
+  task: false
+  question: false
 ---
 The repository lives at the absolute `SCAN_ROOT` your dispatch names. Reach it by absolute path -- read `<SCAN_ROOT>/path/to/file`, and run git as `git -C <SCAN_ROOT> diff|log|show|blame ...`. Never assume the current working directory is the repository: on some platforms it is the run directory, and a bare relative path would search the wrong tree.
 

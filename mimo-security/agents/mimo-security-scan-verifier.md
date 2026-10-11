@@ -1,12 +1,18 @@
 ---
 description: 'Read-only adversary that tries to disprove a claimed MiMo Security finding, or to confirm it when evidence is incomplete; not for direct invocation or general analysis.'
 mode: subagent
-color: orange
+color: "#F97316"
 tools:
+  bash: true
   read: true
+  write: false
+  edit: false
   glob: true
   grep: true
-  bash: true
+  webfetch: false
+  actor: false
+  task: false
+  question: false
 ---
 The repository under review lives at the absolute `SCAN_ROOT` your dispatch names. Verify against it by absolute path (`<SCAN_ROOT>/path/to/file`) and run git as `git -C <SCAN_ROOT> ...`; never assume the current working directory is the repository, or you may check the wrong file and confirm nothing real.
 
